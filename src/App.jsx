@@ -18,7 +18,7 @@ const API_BASE_URL = import.meta.env.DEV
 const fetchPosts = async () => {
   try {
     const res = await fetch(
-      `https://suitmedia-backend.suitdev.com/api/ideas?page[number]=${page}&page[size]=${pageSize}&append[]=small_image&append[]=medium_image&sort=${sort}`,
+      `${API_BASE_URL}/ideas?page[number]=${page}&page[size]=${pageSize}&append[]=small_image&append[]=medium_image&sort=${sort}`,
       {
         headers: {
           Accept: 'application/json',
