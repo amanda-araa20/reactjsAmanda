@@ -1,42 +1,45 @@
 import React, { useEffect, useState } from 'react'
 
+const API_BASE_URL =
+  import.meta.env.MODE === 'development'
+    ? '/api'
+    : 'https://suitmedia-backend.suitdev.com/api'
+
 function Banner() {
-  const [bgUrl, setBgUrl] = useState(null)
+  const [bgImage, setBgImage] = useState('')
 
   useEffect(() => {
-    const API_BASE_URL = import.meta.env.DEV
-  ? '/api'
-  : 'https://suitmedia-backend.suitdev.com/api'
     const fetchBannerImage = async () => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/ideas?page[number]=${page}&page[size]=${pageSize}&append[]=small_image&append[]=medium_image&sort=${sort}`, {
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-    const data = await res.json()
-
-    // 👉 Tambahkan ini
-    console.log('Banner data:', data)
-console.log('Banner item:', data.data[0])
-
-    const imageUrl = data?.data?.[0]?.medium_image
-    setBgUrl(imageUrl || null)
-  } catch (err) {
-    console.error('Banner fetch error:', err)
-  }
-}
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/ideas?page[number]=1&page[size]=1&append[]=medium_image&sort=-published_at`,
+          {
+            headers: {
+              Accept: 'application/json'
+            }
+          }
+        )
+        const data = await res.json()
+        console.log('Banner data:', data)
+        const item = data.data?.[0]
+        console.log('Banner item:', item)
+        if (item?.medium_image) {
+          setBgImage(item.medium_image)
+        }
+      } catch (err) {
+        console.error('Banner fetch error:', err)
+      }
+    }
 
     fetchBannerImage()
 
     const onScroll = () => {
       const offset = window.scrollY
-      const parallax = document.querySelector('.parallax-img')
-      if (parallax) {
-        parallax.style.transform = `translateY(${offset * 0.4}px)`
+      const el = document.querySelector('.parallax-img')
+      if (el) {
+        el.style.transform = `translateY(${offset * 0.4}px)`
       }
     }
-
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -46,7 +49,10 @@ console.log('Banner item:', data.data[0])
       <div
         className="parallax-img"
         style={{
-          backgroundImage: bgUrl ? `url(${bgUrl})` : 'none',
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       />
       <div className="banner-text">
