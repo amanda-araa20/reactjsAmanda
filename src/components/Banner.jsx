@@ -9,7 +9,7 @@ function Banner() {
   : 'https://suitmedia-backend.suitdev.com/api'
     const fetchBannerImage = async () => {
   try {
-    const res = await fetch('${API_BASE_URL}/ideas?page[number]=1&page[size]=1&append[]=medium_image&sort=-published_at', {
+    const res = await fetch(`${API_BASE_URL}/ideas?page[number]=${page}&page[size]=${pageSize}&append[]=small_image&append[]=medium_image&sort=${sort}`, {
       headers: {
         Accept: 'application/json',
       },
