@@ -11,6 +11,10 @@ function App() {
   const [sort, setSort] = useState('-published_at')
   const [meta, setMeta] = useState({})
 
+const API_BASE_URL = import.meta.env.DEV
+  ? '/api'
+  : 'https://suitmedia-backend.suitdev.com/api'
+
 const fetchPosts = async () => {
   try {
     const res = await fetch(

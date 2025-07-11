@@ -4,6 +4,9 @@ function Banner() {
   const [bgUrl, setBgUrl] = useState(null)
 
   useEffect(() => {
+    const API_BASE_URL = import.meta.env.DEV
+  ? '/api'
+  : 'https://suitmedia-backend.suitdev.com/api'
     const fetchBannerImage = async () => {
   try {
     const res = await fetch('https://suitmedia-backend.suitdev.com/api/ideas?page[number]=1&page[size]=1&append[]=medium_image&sort=-published_at', {
